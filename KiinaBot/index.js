@@ -6,6 +6,8 @@ client.commands = new Collection();
 
 const Tasa = "846026685992402974";
 
+const commandHelp = `\`\`\`\nCommands :\nsend|{ChannelID}|{Message}\ngsend|{GuildID}|{ChannelID}|{Message}\`\`\``
+
 client.once(Events.ClientReady, c => {
 	console.log('\x1b[37m',`Ready! Logged in as ${c.user.tag}`);
 	console.log('\x1b[34m',`${c.guilds.cache.get(Tasa).name} (${c.guilds.cache.get(Tasa).id})`);
@@ -16,12 +18,30 @@ client.once(Events.ClientReady, c => {
 	c.guilds.cache.get(Tasa).roles.cache.forEach(r =>{
 		console.log('\x1b[31m',`	${r.name} (${r.id})`)
 	})
+	c.guilds.cache.forEach(g =>{
+		console.log('\x1b[35m',`${g.name} ( ${g.id} )`)
+	})
+
+	c.guilds.cache.get(Tasa).channels.cache.get("1092891853189300345").send(commandHelp)
 });
 
 client.on("messageCreate", (message) =>{
+	if(message.author.bot)return;
 	if(message.guild.id != Tasa) return;
-	if(message.author.id == "283295469143064576"){
-		if(message.content == "olen nyt ylivaltias"){
+	if(message.channel.id != "1092891853189300345"){
+		if(message.author.id == "283295469143064576"){
+			if(message.content == "olen nyt ylivaltias"){
+				if(message.member.roles.cache.has("846041532950904884")){
+					message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
+				}else{
+					message.member.roles.add(message.guild.roles.cache.get("846041532950904884"))
+					message.reply(`Kyllä herra ylivaltias ${message.member.nickname}`)
+				}
+			}
+		}
+	}
+	//if(message.author.id == "283295469143064576"){
+		if(message.content == "olen nyt ylivaltias" || message.content ==  "lOl"){
 			if(message.member.roles.cache.has("846041532950904884")){
 				message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
 			}else{
@@ -36,8 +56,22 @@ client.on("messageCreate", (message) =>{
 				console.log("\x1b[31m","could not send message")
 			}
 		}
+		else if(message.content.startsWith("gsend")){
+			let command = message.content.split("|")
+			try{
+				client.guilds.cache.get(command[1]).channels.cache.get(command[2]).send(command[3])
+				console.log(`${command[0]} ${command[1]} ${command[2]} ${command[3]}`)
+			}catch(e){
+				console.log("\x1b[31m","could not send message | ",e)
+			}
+		}
+		else if(message.content.startsWith("invite")){
+			console.log(message.guild.invites.cache)
+		}
+	//}
+	if(message.channel.id == "1092891853189300345"){
+		if(message.content != commandHelp) message.delete();
 	}
-
 })
 
 client.login(token);
