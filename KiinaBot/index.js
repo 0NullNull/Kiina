@@ -49,13 +49,14 @@ client.once(Events.ClientReady, c => {
 		console.log('\x1b[35m',`${g.name} ( ${g.id} )`)
 	})
 	
-	var msg = RandomMessages[Math.floor(Math.random() * RandomMessages.length)]
-	var channel = c.guilds.cache.get("840311235772678162").channels.cache.get("840311642747437118")
-	console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}`)
-	channel.send(msg)
-
 	Cc.messages.fetch("1092912862399320114")
 		.then(message => message.edit(commandHelp))
+	if(process.argv.slice(2)[0] == "invMsg"){
+		var msg = RandomMessages[Math.floor(Math.random() * RandomMessages.length)]
+		var channel = c.guilds.cache.get("840311235772678162").channels.cache.get("840311642747437118")
+		console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}`)
+		channel.send(msg)
+	}
 });
 
 client.on("messageCreate", (message) =>{
