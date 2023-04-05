@@ -6,6 +6,9 @@ client.commands = new Collection();
 
 const Tasa = "846026685992402974";
 
+var _Tasa;
+var Cc;
+
 const commandHelp = `\`\`\`\nCommands :\nsend|{ChannelID}|{Message}\ngsend|{GuildID}|{ChannelID}|{Message}\`\`\``
 const dcLink = "https://discord.gg/aKeqdGZMQQ"
 
@@ -31,6 +34,8 @@ const RandomMessages = [
 ]
 
 client.once(Events.ClientReady, c => {
+	_Tasa = client.guilds.cache.get(Tasa)
+	Cc = _Tasa.channels.cache.get("1092891853189300345")
 	console.log('\x1b[37m',`Ready! Logged in as ${c.user.tag}`);
 	console.log('\x1b[34m',`${c.guilds.cache.get(Tasa).name} (${c.guilds.cache.get(Tasa).id})`);
 	c.guilds.cache.get(Tasa).channels.cache.forEach(c => {
@@ -48,7 +53,9 @@ client.once(Events.ClientReady, c => {
 	var channel = c.guilds.cache.get("840311235772678162").channels.cache.get("840311642747437118")
 	console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}`)
 	channel.send(msg)
-	//c.guilds.cache.get(Tasa).channels.cache.get("1092891853189300345").send(commandHelp)
+
+	Cc.messages.fetch("1092912862399320114")
+		.then(message => message.edit(commandHelp))
 });
 
 client.on("messageCreate", (message) =>{
