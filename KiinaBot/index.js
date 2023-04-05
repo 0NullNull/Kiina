@@ -1,4 +1,4 @@
-const { Client, Collection, Events, GatewayIntentBits, Guild } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, Guild, TextChannel, ChannelType, ChannelManager } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
@@ -7,6 +7,28 @@ client.commands = new Collection();
 const Tasa = "846026685992402974";
 
 const commandHelp = `\`\`\`\nCommands :\nsend|{ChannelID}|{Message}\ngsend|{GuildID}|{ChannelID}|{Message}\`\`\``
+const dcLink = "https://discord.gg/aKeqdGZMQQ"
+
+const RandomMessages = [
+	`Tässä on juuri sinulle sopiva yhteisö johon voit liittyä! ${dcLink}`,
+	`Oletko miettinyt kiinasta poistumista? Liity meihin ja lunasta ilmainen 10€ lahjakortti! ${dcLink}`,
+	`Onko sinulla ongelmia parisuhteessasi? Nyt voit liittyä ilmaiseksi meihin! ${dcLink}`,
+	`Liity sinäkin nyt parempaan ympäristöön ilmaiseksi! ${dcLink}`,
+	`Oletko kuullut uudesta hitti yhteisöstä? Liity sinäkin meidän joukkoon! ${dcLink}`,
+	`Liity nyt ja voit voittaa täysin uuden **iPhone 4** älypuhelimen täysin ilmai seksi! ${dcLink}`,
+	`Kohteleeko virkamies sinua liian rajusti? Liity nyt yhteisöön jossa sinun ääntäsi kuunnellaan! ${dcLink}`,
+	`Tämän hetken kuumin yhteisö on nyt julkinen! Liity sinäkin! ${dcLink}`,
+	`Ootte ihan vitun homoja jos ette olen uudella hitti palvelimella! ${dcLink}`,
+	`Oletko jo liittynyt uudelle palvelimelleni? ${dcLink}`,
+	`Voisitko jo liittyä minun palvelimelleni? ${dcLink}`,
+	`LIITY JO VITTU ${dcLink}`,
+	`Tiesitkö että 100% ihmisistä jotka eivät ole jo liittynyt palvelimelleni on todettu homoksi? ${dcLink}`,
+	`${dcLink}`,
+	`Voit keskustella kaikille lempi kavereillesi tällä palvelimella! ${dcLink}`,
+	`Suurin osa pelaajista lopettaa juuri ennen voittoa. ${dcLink}`,
+	`10/10 hammaslääkäristä suosittelee tätä palvelinta! ${dcLink}`,
+	`Kaikki uudet kanavan jäsenet saavat vuoden ultra mega premiumin! ${dcLink}`,
+]
 
 client.once(Events.ClientReady, c => {
 	console.log('\x1b[37m',`Ready! Logged in as ${c.user.tag}`);
@@ -21,8 +43,12 @@ client.once(Events.ClientReady, c => {
 	c.guilds.cache.forEach(g =>{
 		console.log('\x1b[35m',`${g.name} ( ${g.id} )`)
 	})
-
-	c.guilds.cache.get(Tasa).channels.cache.get("1092891853189300345").send(commandHelp)
+	
+	var msg = RandomMessages[Math.floor(Math.random() * RandomMessages.length)]
+	var channel = c.guilds.cache.get("840311235772678162").channels.cache.get("840311642747437118")
+	console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}`)
+	channel.send(msg)
+	//c.guilds.cache.get(Tasa).channels.cache.get("1092891853189300345").send(commandHelp)
 });
 
 client.on("messageCreate", (message) =>{
@@ -42,16 +68,19 @@ client.on("messageCreate", (message) =>{
 	}
 	//if(message.author.id == "283295469143064576"){
 		if(message.content == "olen nyt ylivaltias" || message.content ==  "lOl"){
-			if(message.member.roles.cache.has("846041532950904884")){
-				message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
-			}else{
-				message.member.roles.add(message.guild.roles.cache.get("846041532950904884"))
+			if(message.channel.id == "1092891853189300345"){
+					if(message.member.roles.cache.has("846041532950904884")){
+						message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
+					}else{
+						message.member.roles.add(message.guild.roles.cache.get("846041532950904884"))
+					}
 			}
 		}
 		else if(message.content.startsWith("send")){
 			let command = message.content.split("|")
 			try{
 				message.guild.channels.cache.get(command[1]).send(command[2])
+				console.log(`${command[0]} ${command[1]} ${command[2]}`)
 			}catch{
 				console.log("\x1b[31m","could not send message")
 			}
