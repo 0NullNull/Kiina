@@ -1,4 +1,4 @@
-const { Client, Collection, Events, GatewayIntentBits, Guild, TextChannel, ChannelType, ChannelManager } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, Guild, TextChannel, ChannelType, ChannelManager, Message, PermissionsBitField } = require('discord.js');
 const { token } = require('./config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
@@ -9,7 +9,17 @@ const Tasa = "846026685992402974";
 var _Tasa;
 var Cc;
 
-const commandHelp = `\`\`\`\nCommands :\nsend|{ChannelID}|{Message}\ngsend|{GuildID}|{ChannelID}|{Message}\`\`\``
+const cms = [
+	"(send message to channel)",
+	"(send message in another server)",
+	"(restart bot)"
+]
+
+const commandHelp = `\`\`\`\nCommands :
+${cms[0].padEnd(40)}send|{ChannelID}|{Message}
+${cms[1].padEnd(40)}gsend|{GuildID}|{ChannelID}|{Message}
+${cms[2].padEnd(40)}<r
+\`\`\``
 const dcLink = "https://discord.gg/aKeqdGZMQQ"
 
 const RandomMessages = [
@@ -36,17 +46,16 @@ const RandomMessages = [
 client.once(Events.ClientReady, c => {
 	_Tasa = client.guilds.cache.get(Tasa)
 	Cc = _Tasa.channels.cache.get("1092891853189300345")
-	console.log('\x1b[37m',`Ready! Logged in as ${c.user.tag}`);
-	console.log('\x1b[34m',`${c.guilds.cache.get(Tasa).name} (${c.guilds.cache.get(Tasa).id})`);
-	c.guilds.cache.get(Tasa).channels.cache.forEach(c => {
-		console.log('\x1b[32m',`	${c.name} (${c.id})`)
-	});
-	console.log("")
-	c.guilds.cache.get(Tasa).roles.cache.forEach(r =>{
-		console.log('\x1b[31m',`	${r.name} (${r.id})`)
-	})
+	console.log('\x1b[0m\x1b[37m',`Ready! Logged in as \x1b[41m\x1b[33m${c.user.tag}\x1b[0m`);
 	c.guilds.cache.forEach(g =>{
-		console.log('\x1b[35m',`${g.name} ( ${g.id} )`)
+		console.log('\x1b[34m',`${g.name} (${g.id})\x1b[0m`);
+		g.channels.cache.forEach(c => {
+			console.log('\x1b[32m',`	${c.name} (${c.id})\x1b[0m`)
+		});
+		console.log("")
+		g.roles.cache.forEach(r =>{
+			console.log('\x1b[31m',`	${r.name} (${r.id})\x1b[0m`)
+		})
 	})
 	
 	Cc.messages.fetch("1092912862399320114")
@@ -54,11 +63,10 @@ client.once(Events.ClientReady, c => {
 	if(process.argv.slice(2)[0] == "invMsg"){
 		var msg = RandomMessages[Math.floor(Math.random() * RandomMessages.length)]
 		var channel = c.guilds.cache.get("840311235772678162").channels.cache.get("840311642747437118")
-		console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}`)
+		console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}\x1b[0m`)
 		channel.send(msg)
 	}
 });
-
 client.on("messageCreate", (message) =>{
 	if(message.author.bot)return;
 	if(message.guild.id != Tasa) return;
@@ -88,22 +96,25 @@ client.on("messageCreate", (message) =>{
 			let command = message.content.split("|")
 			try{
 				message.guild.channels.cache.get(command[1]).send(command[2])
-				console.log(`${command[0]} ${command[1]} ${command[2]}`)
+				console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]} \x1b[2m\x1b[47m\x1b[30m${command[2]}\x1b[0m`)
 			}catch{
-				console.log("\x1b[31m","could not send message")
+				console.log("\x1b[31m","could not send message\x1b[0m")
 			}
 		}
 		else if(message.content.startsWith("gsend")){
 			let command = message.content.split("|")
 			try{
 				client.guilds.cache.get(command[1]).channels.cache.get(command[2]).send(command[3])
-				console.log(`${command[0]} ${command[1]} ${command[2]} ${command[3]}`)
+				console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]}>${command[2]} \x1b[2m\x1b[47m\x1b[30m${command[3]}\x1b[0m`)
 			}catch(e){
-				console.log("\x1b[31m","could not send message | ",e)
+				console.log("\x1b[31m","could not send message | ",e,"\x1b[0m")
 			}
 		}
-		else if(message.content.startsWith("invite")){
-			console.log(message.guild.invites.cache)
+		else if(message.content.startsWith("<r")){
+			message.delete();
+			setTimeout(() => {
+				throw new Error("Restart");
+			}, 2000);
 		}
 	//}
 	if(message.channel.id == "1092891853189300345"){
