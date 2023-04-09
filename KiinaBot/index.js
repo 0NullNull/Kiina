@@ -66,6 +66,7 @@ client.once(Events.ClientReady, c => {
 		console.log(`${channel.name} `,`\x1b[47m\x1b[30m> ${msg}\x1b[0m`)
 		channel.send(msg)
 	}
+	console.log("##########################################################################\nLog:\n")
 });
 client.on("messageCreate", (message) =>{
 	if(message.author.bot)return;
