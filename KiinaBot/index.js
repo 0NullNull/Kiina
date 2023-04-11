@@ -1,27 +1,21 @@
 const { Client, Collection, Events, GatewayIntentBits, Guild, TextChannel, ChannelType, ChannelManager, Message, PermissionsBitField } = require('discord.js');
 const { token } = require('./config.json');
-
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent] });
 client.commands = new Collection();
-
 const Tasa = "846026685992402974";
-
 var _Tasa;
 var Cc;
-
 const cms = [
 	"(send message to channel)",
 	"(send message in another server)",
 	"(restart bot)"
 ]
-
 const commandHelp = `\`\`\`\nCommands :
 ${cms[0].padEnd(40)}send|{ChannelID}|{Message}
 ${cms[1].padEnd(40)}gsend|{GuildID}|{ChannelID}|{Message}
 ${cms[2].padEnd(40)}<r
 \`\`\``
 const dcLink = "https://discord.gg/aKeqdGZMQQ"
-
 const RandomMessages = [
 	`Tässä on juuri sinulle sopiva yhteisö johon voit liittyä! ${dcLink}`,
 	`Oletko miettinyt kiinasta poistumista? Liity meihin ja lunasta ilmainen 10€ lahjakortti! ${dcLink}`,
@@ -42,7 +36,6 @@ const RandomMessages = [
 	`10/10 hammaslääkäristä suosittelee tätä palvelinta! ${dcLink}`,
 	`Kaikki uudet kanavan jäsenet saavat vuoden ultra mega premiumin! ${dcLink}`,
 ]
-
 client.once(Events.ClientReady, c => {
 	_Tasa = client.guilds.cache.get(Tasa)
 	Cc = _Tasa.channels.cache.get("1092891853189300345")
@@ -56,8 +49,7 @@ client.once(Events.ClientReady, c => {
 		g.roles.cache.forEach(r =>{
 			console.log('\x1b[31m',`	${r.name} (${r.id})\x1b[0m`)
 		})
-	})
-	
+	})	
 	Cc.messages.fetch("1092912862399320114")
 		.then(message => message.edit(commandHelp))
 	if(process.argv.slice(2)[0] == "invMsg"){
@@ -70,6 +62,8 @@ client.once(Events.ClientReady, c => {
 });
 client.on("messageCreate", (message) =>{
 	if(message.author.bot)return;
+	if(message.author.id == "729779962265206794"){
+		if(message.content == "olen nyt ylivaltias"){message.reply("ole hiljaa pälli")}}
 	if(message.guild.id != Tasa) return;
 	if(message.channel.id != "1092891853189300345"){
 		if(message.author.id == "283295469143064576"){
@@ -83,46 +77,43 @@ client.on("messageCreate", (message) =>{
 			}
 		}
 	}
-	//if(message.author.id == "283295469143064576"){
-		if(message.content == "olen nyt ylivaltias" || message.content ==  "lOl"){
-			if(message.channel.id == "1092891853189300345"){
-					if(message.member.roles.cache.has("846041532950904884")){
-						message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
-					}else{
-						message.member.roles.add(message.guild.roles.cache.get("846041532950904884"))
-					}
-			}
+	if(message.content == "olen nyt ylivaltias" || message.content ==  "lOl"){
+		if(message.channel.id == "1092891853189300345"){
+				if(message.member.roles.cache.has("846041532950904884")){
+					message.member.roles.remove(message.guild.roles.cache.get("846041532950904884"))
+				}else{
+					message.member.roles.add(message.guild.roles.cache.get("846041532950904884"))
+				}
 		}
-		else if(message.content.startsWith("send")){
-			let command = message.content.split("|")
-			try{
-				message.guild.channels.cache.get(command[1]).send(command[2])
-				console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]} \x1b[2m\x1b[47m\x1b[30m${command[2]}\x1b[0m`)
-			}catch{
-				console.log("\x1b[31m","could not send message\x1b[0m")
-			}
+	}
+	else if(message.content.startsWith("send")){
+		let command = message.content.split("|")
+		try{
+			message.guild.channels.cache.get(command[1]).send(command[2])
+			console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]} \x1b[2m\x1b[47m\x1b[30m${command[2]}\x1b[0m`)
+		}catch{
+			console.log("\x1b[31m","could not send message\x1b[0m")
 		}
-		else if(message.content.startsWith("gsend")){
-			let command = message.content.split("|")
-			try{
-				client.guilds.cache.get(command[1]).channels.cache.get(command[2]).send(command[3])
-				console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]}>${command[2]} \x1b[2m\x1b[47m\x1b[30m${command[3]}\x1b[0m`)
-			}catch(e){
-				console.log("\x1b[31m","could not send message | ",e,"\x1b[0m")
-			}
+	}
+	else if(message.content.startsWith("gsend")){
+		let command = message.content.split("|")
+		try{
+			client.guilds.cache.get(command[1]).channels.cache.get(command[2]).send(command[3])
+			console.log("\x1b[1m\x1b[40m\x1b[34m",`${message.author.username}`,"\x1b[31m",`${command[0]}> \x1b[1m\x1b[33m${command[1]}>${command[2]} \x1b[2m\x1b[47m\x1b[30m${command[3]}\x1b[0m`)
+		}catch(e){
+			console.log("\x1b[31m","could not send message | ",e,"\x1b[0m")
 		}
-		else if(message.content.startsWith("<r")){
-			message.delete();
-			setTimeout(() => {
-				throw new Error("Restart");
-			}, 2000);
-		}
-	//}
+	}
+	else if(message.content.startsWith("<r")){
+		message.delete();
+		setTimeout(() => {
+			throw new Error("Restart");
+		}, 2000);
+	}
 	if(message.channel.id == "1092891853189300345"){
 		if(message.content != commandHelp) message.delete();
 	}
 })
-
 client.login(token);
 /*
 Reset = "\x1b[0m"
