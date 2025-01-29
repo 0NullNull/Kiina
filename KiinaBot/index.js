@@ -17,24 +17,7 @@ ${cms[2].padEnd(40)}<r
 \`\`\``
 const dcLink = "https://discord.gg/aKeqdGZMQQ"
 const RandomMessages = [
-	`Tässä on juuri sinulle sopiva yhteisö johon voit liittyä! ${dcLink}`,
-	`Oletko miettinyt kiinasta poistumista? Liity meihin ja lunasta ilmainen 10€ lahjakortti! ${dcLink}`,
-	`Onko sinulla ongelmia parisuhteessasi? Nyt voit liittyä ilmaiseksi meihin! ${dcLink}`,
-	`Liity sinäkin nyt parempaan ympäristöön ilmaiseksi! ${dcLink}`,
-	`Oletko kuullut uudesta hitti yhteisöstä? Liity sinäkin meidän joukkoon! ${dcLink}`,
-	`Liity nyt ja voit voittaa täysin uuden **iPhone 4** älypuhelimen täysin ilmai seksi! ${dcLink}`,
-	`Kohteleeko virkamies sinua liian rajusti? Liity nyt yhteisöön jossa sinun ääntäsi kuunnellaan! ${dcLink}`,
-	`Tämän hetken kuumin yhteisö on nyt julkinen! Liity sinäkin! ${dcLink}`,
-	`Ootte ihan vitun homoja jos ette olen uudella hitti palvelimella! ${dcLink}`,
-	`Oletko jo liittynyt uudelle palvelimelleni? ${dcLink}`,
-	`Voisitko jo liittyä minun palvelimelleni? ${dcLink}`,
-	`LIITY JO VITTU ${dcLink}`,
-	`Tiesitkö että 100% ihmisistä jotka eivät ole jo liittynyt palvelimelleni on todettu homoksi? ${dcLink}`,
-	`${dcLink}`,
-	`Voit keskustella kaikille lempi kavereillesi tällä palvelimella! ${dcLink}`,
-	`Suurin osa pelaajista lopettaa juuri ennen voittoa. ${dcLink}`,
-	`10/10 hammaslääkäristä suosittelee tätä palvelinta! ${dcLink}`,
-	`Kaikki uudet kanavan jäsenet saavat vuoden ultra mega premiumin! ${dcLink}`,
+	
 ]
 client.once(Events.ClientReady, c => {
 	_Tasa = client.guilds.cache.get(Tasa)
